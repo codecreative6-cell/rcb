@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="theme-color" content="#060606"/>
+<title>RCB — IPL Champions 2026 · Ee Sala Cup Namde</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;900&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══ CUSTOM CURSOR (desktop) ══ -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ══ NOISE ══ -->
+<div id="noise"></div>
+
+<!-- ══ FIREWORKS ══ -->
+<canvas id="fw"></canvas>
+
+<!-- ══════════════════════════════════════════
+     SVG SILHOUETTE DEFS (hidden)
+     Four cricket player poses reused across squad cards
+══════════════════════════════════════════ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <!-- BATSMAN (right-hand drive) -->
+    <symbol id="sil-bat" viewBox="0 0 100 160">
+      <!-- head + helmet -->
+      <ellipse cx="52" cy="20" rx="12" ry="13" fill="rgba(245,210,180,.22)"/>
+      <path d="M40 13 Q40 5 52 5 Q64 5 64 13 L61 20 Q52 16 43 20Z" fill="rgba(190,10,10,.45)"/>
+      <!-- body (jersey) -->
+      <path d="M36 36 Q52 30 66 36 L70 92 Q52 100 32 92Z" fill="rgba(170,8,8,.3)"/>
+      <!-- bat arm -->
+      <path d="M65 45 L82 74" stroke="rgba(245,210,180,.2)" stroke-width="10" stroke-linecap="round"/>
+      <!-- bat blade -->
+      <path d="M78 68 L91 65 L97 112 L84 115Z" fill="rgba(201,152,42,.42)"/>
+      <!-- bat handle -->
+      <line x1="84" y1="68" x2="82" y2="56" stroke="rgba(201,152,42,.35)" stroke-width="4" stroke-linecap="round"/>
+      <!-- gloves -->
+      <circle cx="81" cy="75" r="6" fill="rgba(201,152,42,.38)"/>
+      <!-- front arm (guard) -->
+      <path d="M36 46 L18 66" stroke="rgba(245,210,180,.15)" stroke-width="9" stroke-linecap="round"/>
+      <!-- pad lines on front arm -->
+      <line x1="20" y1="55" x2="23" y2="62" stroke="rgba(245,234,208,.1)" stroke-width="4"/>
+      <!-- legs -->
+      <path d="M36 92 L28 152 L38 152 L44 92Z" fill="rgba(170,8,8,.25)"/>
+      <path d="M64 92 L72 152 L62 152 L56 92Z" fill="rgba(170,8,8,.25)"/>
+      <!-- pads -->
+      <rect x="27" y="118" width="14" height="34" rx="5" fill="rgba(245,234,208,.1)"/>
+      <rect x="59" y="118" width="14" height="34" rx="5" fill="rgba(245,234,208,.1)"/>
+      <!-- shoes -->
+      <path d="M24 150 L40 150 L42 158 L22 158Z" fill="rgba(50,50,50,.4)"/>
+      <path d="M56 150 L74 150 L76 158 L54 158Z" fill="rgba(50,50,50,.4)"/>
+    </symbol>
+
+    <!-- BOWLER (delivery stride) -->
+    <symbol id="sil-bowl" viewBox="0 0 100 160">
+      <!-- head -->
+      <ellipse cx="40" cy="18" rx="12" ry="13" fill="rgba(245,210,180,.22)"/>
+      <!-- body (forward lean) -->
+      <path d="M26 34 Q40 27 55 34 L58 85 Q40 94 22 85Z" fill="rgba(170,8,8,.3)"/>
+      <!-- bowling arm (high) -->
+      <path d="M55 42 L76 12" stroke="rgba(245,210,180,.2)" stroke-width="10" stroke-linecap="round"/>
+      <!-- cricket ball -->
+      <circle cx="78" cy="10" r="9" fill="rgba(190,10,10,.55)"/>
+      <path d="M72 7 Q78 10 84 7" stroke="rgba(255,200,150,.5)" stroke-width="1.5" fill="none"/>
+      <path d="M75 3 Q78 10 81 3" stroke="rgba(255,200,150,.4)" stroke-width="1.5" fill="none"/>
+      <!-- front (guide) arm -->
+      <path d="M26 43 L8 64" stroke="rgba(245,210,180,.15)" stroke-width="9" stroke-linecap="round"/>
+      <!-- legs (stride) -->
+      <path d="M24 85 L10 152 L22 152 L32 85Z" fill="rgba(170,8,8,.25)"/>
+      <path d="M52 85 L68 152 L58 152 L44 85Z" fill="rgba(170,8,8,.25)"/>
+      <!-- shoes -->
+      <path d="M5 150 L25 150 L27 158 L3 158Z" fill="rgba(50,50,50,.4)"/>
+      <path d="M54 150 L72 150 L74 158 L52 158Z" fill="rgba(50,50,50,.4)"/>
+    </symbol>
+
+    <!-- ALL-ROUNDER (ready stance) -->
+    <symbol id="sil-ar" viewBox="0 0 100 160">
+      <!-- head + cap -->
+      <ellipse cx="50" cy="18" rx="13" ry="13" fill="rgba(245,210,180,.22)"/>
+      <path d="M37 12 Q37 4 50 4 Q63 4 63 12 L60 19 Q50 15 40 19Z" fill="rgba(190,10,10,.42)"/>
+      <!-- body -->
+      <path d="M33 34 Q50 27 67 34 L70 90 Q50 98 30 90Z" fill="rgba(170,8,8,.3)"/>
+      <!-- arms spread -->
+      <path d="M33 45 L10 64" stroke="rgba(245,210,180,.18)" stroke-width="9" stroke-linecap="round"/>
+      <path d="M67 45 L90 64" stroke="rgba(245,210,180,.18)" stroke-width="9" stroke-linecap="round"/>
+      <!-- bat held at side -->
+      <rect x="84" y="60" width="7" height="58" rx="3" fill="rgba(201,152,42,.38)"/>
+      <rect x="85" y="48" width="5" height="14" rx="2" fill="rgba(201,152,42,.3)"/>
+      <!-- gloves -->
+      <circle cx="10" cy="66" r="6" fill="rgba(201,152,42,.32)"/>
+      <circle cx="90" cy="66" r="6" fill="rgba(201,152,42,.32)"/>
+      <!-- legs -->
+      <path d="M34 90 L24 152 L34 152 L40 90Z" fill="rgba(170,8,8,.25)"/>
+      <path d="M66 90 L76 152 L66 152 L60 90Z" fill="rgba(170,8,8,.25)"/>
+      <!-- shoes -->
+      <path d="M20 150 L38 150 L40 158 L18 158Z" fill="rgba(50,50,50,.4)"/>
+      <path d="M58 150 L78 150 L80 158 L56 158Z" fill="rgba(50,50,50,.4)"/>
+    </symbol>
+
+    <!-- WICKETKEEPER (crouching with gloves) -->
+    <symbol id="sil-wk" viewBox="0 0 100 160">
+      <!-- head + helmet -->
+      <ellipse cx="50" cy="19" rx="13" ry="13" fill="rgba(245,210,180,.22)"/>
+      <path d="M37 13 Q37 5 50 5 Q63 5 63 13Z" fill="rgba(190,10,10,.45)"/>
+      <!-- face guard bars -->
+      <line x1="40" y1="14" x2="40" y2="30" stroke="rgba(100,100,100,.3)" stroke-width="2"/>
+      <line x1="48" y1="13" x2="48" y2="31" stroke="rgba(100,100,100,.3)" stroke-width="2"/>
+      <line x1="56" y1="13" x2="56" y2="31" stroke="rgba(100,100,100,.3)" stroke-width="2"/>
+      <!-- crouching body -->
+      <path d="M18 48 Q50 36 82 48 L84 82 Q50 96 16 82Z" fill="rgba(170,8,8,.3)"/>
+      <!-- left arm + big glove -->
+      <path d="M18 62 L4 82" stroke="rgba(245,210,180,.15)" stroke-width="10" stroke-linecap="round"/>
+      <ellipse cx="3" cy="86" rx="12" ry="9" fill="rgba(201,152,42,.42)"/>
+      <!-- right arm + big glove -->
+      <path d="M82 62 L96 82" stroke="rgba(245,210,180,.15)" stroke-width="10" stroke-linecap="round"/>
+      <ellipse cx="97" cy="86" rx="12" ry="9" fill="rgba(201,152,42,.42)"/>
+      <!-- squatting legs -->
+      <path d="M22 82 L10 140 L22 140 L30 82Z" fill="rgba(170,8,8,.25)"/>
+      <path d="M78 82 L90 140 L78 140 L70 82Z" fill="rgba(170,8,8,.25)"/>
+      <!-- leg pads -->
+      <rect x="8" y="105" width="18" height="35" rx="5" fill="rgba(245,234,208,.1)"/>
+      <rect x="74" y="105" width="18" height="35" rx="5" fill="rgba(245,234,208,.1)"/>
+      <!-- shoes -->
+      <path d="M5 138 L27 138 L29 148 L3 148Z" fill="rgba(50,50,50,.4)"/>
+      <path d="M71 138 L95 138 L97 148 L69 148Z" fill="rgba(50,50,50,.4)"/>
+    </symbol>
+
+    <!-- SPINNER (side-arm action) -->
+    <symbol id="sil-spin" viewBox="0 0 100 160">
+      <!-- head -->
+      <ellipse cx="42" cy="18" rx="12" ry="13" fill="rgba(245,210,180,.22)"/>
+      <!-- body angled -->
+      <path d="M28 34 Q42 27 56 34 L60 84 Q42 92 24 84Z" fill="rgba(170,8,8,.3)"/>
+      <!-- spin-bowling arm (slightly lower than fast) -->
+      <path d="M56 42 L78 20" stroke="rgba(245,210,180,.2)" stroke-width="10" stroke-linecap="round"/>
+      <!-- ball at fingertip height -->
+      <circle cx="80" cy="18" r="8" fill="rgba(190,10,10,.5)"/>
+      <path d="M75 14 Q80 18 85 14" stroke="rgba(255,200,150,.5)" stroke-width="1.5" fill="none"/>
+      <!-- front arm up (balance) -->
+      <path d="M28 44 L10 28" stroke="rgba(245,210,180,.15)" stroke-width="9" stroke-linecap="round"/>
+      <!-- pivot back leg -->
+      <path d="M24 84 L8 148 L20 148 L30 84Z" fill="rgba(170,8,8,.25)"/>
+      <!-- front stride leg -->
+      <path d="M54 84 L70 148 L60 148 L46 84Z" fill="rgba(170,8,8,.25)"/>
+      <!-- shoes -->
+      <path d="M3 146 L23 146 L25 154 L1 154Z" fill="rgba(50,50,50,.4)"/>
+      <path d="M56 146 L74 146 L76 154 L54 154Z" fill="rgba(50,50,50,.4)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section id="hero">
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <div class="grid-floor" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="hero-bg-text" aria-hidden="true">CHAMPIONS</div>
+
+  <div class="hero-inner">
+    <div class="hero-eyebrow">✦ Royal Challengers Bengaluru ✦ IPL Champions ✦</div>
+
+    <h1 class="hero-glitch" data-text="CHAMPIONS">CHAMPIONS</h1>
+
+    <div class="hero-sub">Ee Sala Cup Namde</div>
+
+    <div class="flame-row" aria-hidden="true" id="flame-row"></div>
+
+    <div class="hero-ball-wrap">
+      <div class="ball-glow"></div>
+      <div class="hero-ball">
+        <div class="ball-seam"></div>
+        <div class="ball-seam"></div>
+      </div>
+    </div>
+
+    <div class="hero-match-info">
+      <strong>IPL Final 2026</strong> &nbsp;·&nbsp; RCB vs GT &nbsp;·&nbsp;
+      <strong>Narendra Modi Stadium</strong> &nbsp;·&nbsp; Ahmedabad &nbsp;·&nbsp; May 31, 2026
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ══ TICKER ══ -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">RCB IPL CHAMPIONS 2026</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">EE SALA CUP NAMDE</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">BACK TO BACK TITLES</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">2025 · 2026 DYNASTY</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">NARENDRA MODI STADIUM</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">RCB IPL CHAMPIONS 2026</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">EE SALA CUP NAMDE</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">BACK TO BACK TITLES</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">2025 · 2026 DYNASTY</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">NARENDRA MODI STADIUM</span><span class="ticker-sep">◆</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">RCB IPL CHAMPIONS 2026</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">EE SALA CUP NAMDE</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">BACK TO BACK TITLES</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">2025 · 2026 DYNASTY</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">NARENDRA MODI STADIUM</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">RCB IPL CHAMPIONS 2026</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">EE SALA CUP NAMDE</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">BACK TO BACK TITLES</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">2025 · 2026 DYNASTY</span><span class="ticker-sep">◆</span>
+    <span class="ticker-item">NARENDRA MODI STADIUM</span><span class="ticker-sep">◆</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     BACK TO BACK
+══════════════════════════════════════════ -->
+<section id="b2b">
+  <canvas id="flame-canvas"></canvas>
+  <div class="rev" style="position:relative;z-index:1;">
+    <div class="dynasty-emblem">
+      <div class="emblem-ring">
+        <div class="emblem-star">🏆</div>
+      </div>
+    </div>
+  </div>
+  <div class="rev d1" style="position:relative;z-index:1;">
+    <div class="b2b-sup">Dynasty · History · Legacy</div>
+    <div class="b2b-h">Back to <em>Back</em></div>
+    <div class="b2b-body">
+      Seventeen years of longing. Seventeen years of <em>almost</em>.<br>
+      Then — back to back. The Red Army did not just win a trophy.<br>
+      They rewrote the story of Indian cricket.
+    </div>
+  </div>
+  <div class="year-cards rev d2" style="position:relative;z-index:1;">
+    <div class="year-card">
+      <span class="year-badge">Champions</span>
+      <span class="year-num">2025</span>
+      <span class="year-label">Beat PBKS by 6 runs</span>
+    </div>
+    <div class="year-card">
+      <span class="year-badge">Champions</span>
+      <span class="year-num">2026</span>
+      <span class="year-label">Beat GT · Ahmedabad</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TROPHY + RESULT
+══════════════════════════════════════════ -->
+<section id="trophy">
+  <div class="section-tag rev">The Cup</div>
+  <h2 class="rev d1" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,7vw,90px);letter-spacing:.08em;color:var(--cream);text-shadow:0 2px 16px rgba(0,0,0,.7);">Lifting the <span style="color:var(--gold2);">Iridescent Cup</span></h2>
+  <p class="rev d2" style="font-family:'IM Fell English',serif;font-style:italic;font-size:clamp(14px,1.7vw,20px);color:rgba(245,234,208,.8);max-width:520px;margin:10px auto 0;line-height:1.6;text-shadow:0 1px 6px rgba(0,0,0,.8);">
+    Raised high at the Narendra Modi Stadium before 132,000 roaring souls.
+  </p>
+
+  <div class="trophy-stage rev d3">
+    <div class="orbit"></div>
+    <div class="orbit"></div>
+    <div class="orbit"></div>
+    <div class="trophy-svg-wrap">
+      <svg width="220" height="310" viewBox="0 0 220 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFE899"/>
+            <stop offset="30%" stop-color="#C9982A"/>
+            <stop offset="60%" stop-color="#F5C842"/>
+            <stop offset="100%" stop-color="#7A5C10"/>
+          </linearGradient>
+          <linearGradient id="g2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FFE899"/>
+            <stop offset="100%" stop-color="#C9982A"/>
+          </linearGradient>
+          <radialGradient id="g3" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FFE899" stop-opacity=".8"/>
+            <stop offset="100%" stop-color="#7A5C10" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="blur4"><feGaussianBlur stdDeviation="4"/></filter>
+          <filter id="glow2">
+            <feGaussianBlur stdDeviation="6" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <ellipse cx="110" cy="270" rx="70" ry="16" fill="rgba(201,152,42,.18)" filter="url(#blur4)"/>
+        <path d="M55 82 Q14 72 16 118 Q18 148 55 152" stroke="url(#g1)" stroke-width="7" fill="none" stroke-linecap="round"/>
+        <path d="M165 82 Q206 72 204 118 Q202 148 165 152" stroke="url(#g1)" stroke-width="7" fill="none" stroke-linecap="round"/>
+        <path d="M55 44 L165 44 L158 166 Q148 210 110 218 Q72 210 62 166 Z" fill="url(#g1)" filter="url(#glow2)"/>
+        <path d="M55 44 L165 44 L158 166 Q148 210 110 218 Q72 210 62 166 Z" fill="url(#g3)"/>
+        <rect x="50" y="38" width="120" height="13" rx="6.5" fill="url(#g2)"/>
+        <path d="M68 170 Q110 182 152 170" stroke="rgba(255,255,255,.15)" stroke-width="1.5" fill="none"/>
+        <text x="110" y="140" font-size="42" text-anchor="middle" fill="rgba(255,255,255,.22)" font-family="serif">★</text>
+        <path d="M80 58 Q84 120 76 168" stroke="rgba(255,255,255,.28)" stroke-width="9" stroke-linecap="round" fill="none"/>
+        <rect x="96" y="218" width="28" height="34" fill="url(#g1)"/>
+        <rect x="68" y="252" width="84" height="12" rx="3" fill="url(#g2)"/>
+        <rect x="56" y="264" width="108" height="15" rx="5" fill="url(#g1)"/>
+        <rect x="60" y="266" width="40" height="4" rx="2" fill="rgba(255,255,255,.18)"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="match-result-card rev d2">
+    <div class="mrc-top">
+      <span>IPL 2026 Grand Final</span>
+      <span>May 31, 2026</span>
+      <span>Narendra Modi Stadium, Ahmedabad</span>
+    </div>
+    <div class="mrc-body">
+      <div class="mrc-team">
+        <div class="mrc-acronym win">RCB</div>
+        <div class="mrc-name">Royal Challengers Bengaluru</div>
+        <div class="mrc-winner-label">🏆 Champions</div>
+      </div>
+      <div class="mrc-vs">VS</div>
+      <div class="mrc-team">
+        <div class="mrc-acronym lose">GT</div>
+        <div class="mrc-name">Gujarat Titans</div>
+        <div style="margin-top:14px;font-family:'IM Fell English',serif;font-style:italic;font-size:14px;color:rgba(255,255,255,.4);">Runners-up</div>
+      </div>
+    </div>
+    <div class="mrc-foot">
+      <strong>132,000 fans</strong> witnessed history at the world's largest cricket stadium
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     STATS
+══════════════════════════════════════════ -->
+<section id="stats">
+  <div class="section-tag rev">By the Numbers</div>
+  <h2 class="rev d1" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,6vw,80px);letter-spacing:.1em;text-align:center;color:var(--cream);text-shadow:0 2px 12px rgba(0,0,0,.7);">Season <span style="color:var(--gold2);">Dominance</span></h2>
+  <div class="stats-row">
+    <div class="stat-box rev">
+      <div class="stat-n" data-target="14">0</div>
+      <div class="stat-l">Wins This Season</div>
+    </div>
+    <div class="stat-box rev d1">
+      <div class="stat-n" data-target="2">0</div>
+      <div class="stat-l">Consecutive Titles</div>
+    </div>
+    <div class="stat-box rev d2">
+      <div class="stat-n" data-target="17">0</div>
+      <div class="stat-l">Years in the IPL</div>
+    </div>
+    <div class="stat-box rev d3">
+      <div class="stat-n" data-target="1">0</div>
+      <div class="stat-l">Cup. Namde. Forever.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SQUAD — PLAYING XI WITH PORTRAITS
+══════════════════════════════════════════ -->
+<section id="squad">
+  <div class="section-tag rev">The Warriors</div>
+  <h2 class="rev d1" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,7vw,90px);letter-spacing:.08em;text-align:center;color:var(--cream);text-shadow:0 2px 12px rgba(0,0,0,.7);">
+    Champion <span style="color:var(--gold2);">XI</span>
+  </h2>
+  <p class="rev d2" style="font-family:'IM Fell English',serif;font-style:italic;font-size:clamp(13px,1.6vw,19px);color:rgba(245,234,208,.75);text-align:center;max-width:500px;margin:10px auto 0;text-shadow:0 1px 4px rgba(0,0,0,.6);">
+    Eleven who carried the weight of seventeen years on their shoulders.
+  </p>
+
+  <div class="squad-grid">
+
+    <!-- 1. Virat Kohli -->
+    <div class="pc">
+      <div class="pc-portrait">
+        <img src="img (1).png" alt="Virat Kohli"/>
+        <div class="pc-portrait-bignum">1</div>
+        <div class="pc-portrait-role">Batter · Opener</div>
+        <div class="pc-portrait-flag">🇮🇳</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-num">#01</div>
+        <div class="pc-name">Virat Kohli</div>
+        <div class="pc-country">India</div>
+      </div>
+    </div>
+
+    <!-- 2. Devdutt Padikkal -->
+    <div class="pc">
+      <div class="pc-portrait">
+        <img src="img (2).png" alt="Devdutt Padikkal"/>
+        <div class="pc-portrait-bignum">2</div>
+        <div class="pc-portrait-role">Batter · Opener</div>
+        <div class="pc-portrait-flag">🇮🇳</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-num">#02</div>
+        <div class="pc-name">Devdutt Padikkal</div>
+        <div class="pc-country">India</div>
+      </div>
+    </div>
+
+    <!-- 3. Rajat Patidar (C) -->
+    <div class="pc">
+      <div class="pc-portrait">
+        <img src="img (21).png" alt="Rajat Patidar"/>
+        <div class="pc-portrait-bignum">3</div>
+        <div class="pc-portrait-role">Batter · Captain</div>
+        <div class="pc-portrait-flag">🇮🇳</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-num">#03</div>
+        <div class="pc-name">Rajat Patidar</div>
+        <div class="pc-country">India</div>
+        <div class="pc-cap">Skipper</div>
+      </div>
+    </div>
+
+    <!-- 4. Jitesh Sharma (WK) -->
+    <div class="pc">
+      <div class="pc-portrait">
+        <img src="img (20).png" alt="Jitesh Sharma"/>
+        <div class="pc-portrait-bignum">4</div>
+        <div class="pc-portrait-role">Wicketkeeper</div>
+        <div class="pc-portrait-flag">🇮🇳</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-num">#04</div>
+        <div class="pc-name">Jitesh Sharma</div>
+        <div class="pc-country">India</div>
+      </div>
+    </div>
+
+    <!-- 5. Tim David -->
+    <div class="pc">
+      <div class="pc-portrait">
+        <img src="img (19).png" alt="Tim David"/>
+        <div class="pc-portrait-bignum">5</div>
+        <div class="pc-portrait-role">Batter</div>
+        <div class="pc-portrait-flag">🇸🇬</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-num">#05</div>
+        <div class="pc-name">Tim David</div>
+        <div class="pc-country">Singapore</div>
+      </div>
+    </div>
+
+    <!-- 6. Krunal Pandya -->
+    <div class="pc">
+      <div class="pc-portrait">
+        <img src="img (18).png" alt="Krunal Pandya"/>
+        <div class="pc-portrait-bignum">6</div>
+        <div class="pc-portrait-role">All-Rounder</div>
+        <div class="pc-portrait-flag">🇮🇳</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-num">#06</div>
+        <div class="pc-name">Krunal Pandya</div>
+        <div class="pc-country">India</div>
+      </div>
+    </div>
+
+    <!-- 7. Venkatesh Iyer -->
+    <div class="pc">
+      <div class="pc-portrait">
+        <img src="img (12).png" alt="Venkatesh Iyer"/>
+        <div class="pc-portrait-bignum">11</div>
+        <div class="pc-portrait-role">All-Rounder</div>
+        <div class="pc-portrait-flag">🇮🇳</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-num">#11</div>
+        <div class="pc-name">Venkatesh Iyer</div>
+        <div class="pc-country">India</div>
+      </div>
+    </div>
+
+    <!-- 8. Bhuvneshwar Kumar -->
+    <div class="pc">
+      <div class="pc-portrait">
+        <img src="img (16).png" alt="Bhuvneshwar Kumar"/>
+        <div class="pc-portrait-bignum">8</div>
+        <div class="pc-portrait-role">Fast Bowler</div>
+        <div class="pc-portrait-flag">🇮🇳</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-num">#08</div>
+        <div class="pc-name">Bhuvneshwar Kumar</div>
+        <div class="pc-country">India</div>
+      </div>
+    </div>
+
+    <!-- 9. Josh Hazlewood -->
+    <div class="pc">
+      <div class="pc-portrait">
+        <img src="img (15).png" alt="Josh Hazlewood"/>
+        <div class="pc-portrait-bignum">9</div>
+        <div class="pc-portrait-role">Fast Bowler</div>
+        <div class="pc-portrait-flag">🇦🇺</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-num">#09</div>
+        <div class="pc-name">Josh Hazlewood</div>
+        <div class="pc-country">Australia</div>
+      </div>
+    </div>
+
+    <!-- 10. Jacob Duffy -->
+    <div class="pc">
+      <div class="pc-portrait">
+        <img src="img (13).png" alt="Jacob Duffy"/>
+        <div class="pc-portrait-bignum">10</div>
+        <div class="pc-portrait-role">Fast Bowler</div>
+        <div class="pc-portrait-flag">🇳🇿</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-num">#10</div>
+        <div class="pc-name">Jacob Duffy</div>
+        <div class="pc-country">New Zealand</div>
+      </div>
+    </div>
+
+    <!-- 11. Rasikh Salam -->
+    <div class="pc">
+      <div class="pc-portrait">
+        <img src="img (17).png" alt="Rasikh Salam"/>
+        <div class="pc-portrait-bignum">7</div>
+        <div class="pc-portrait-role">Fast Bowler</div>
+        <div class="pc-portrait-flag">🇮🇳</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-num">#07</div>
+        <div class="pc-name">Rasikh Salam</div>
+        <div class="pc-country">India</div>
+      </div>
+    </div>
+
+  </div><!-- end .squad-grid -->
+</section>
+
+<!-- ══════════════════════════════════════════
+     HALL OF FLAME TIMELINE
+══════════════════════════════════════════ -->
+<section id="timeline">
+  <div class="section-tag rev">Hall of Flame</div>
+  <h2 class="rev d1" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,7vw,88px);letter-spacing:.08em;color:var(--cream);text-shadow:0 2px 12px rgba(0,0,0,.7);">The <span style="color:var(--gold2);">RCB</span> Story</h2>
+  <p class="rev d2" style="font-family:'IM Fell English',serif;font-style:italic;font-size:clamp(13px,1.6vw,19px);color:rgba(245,234,208,.75);max-width:500px;margin:10px auto 0;text-shadow:0 1px 4px rgba(0,0,0,.6);">
+    Every great dynasty has a history. Here is ours.
+  </p>
+  <div class="tl-wrap">
+    <div class="tl-spine"></div>
+
+    <div class="tl-item">
+      <div class="tl-content"><div class="tl-year">2008</div><div class="tl-event">IPL Founded</div><div class="tl-detail">RCB enter the league. A red army is born in Bengaluru.</div></div>
+      <div class="tl-node">🔴</div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-empty"></div>
+      <div class="tl-node">⚡</div>
+      <div class="tl-content"><div class="tl-year">2009</div><div class="tl-event">First Final</div><div class="tl-detail">RCB reach the IPL Final — the hunger begins.</div></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-content"><div class="tl-year">2011</div><div class="tl-event">Second Final</div><div class="tl-detail">Champions League glory. The cup stays just out of reach.</div></div>
+      <div class="tl-node">🏏</div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-empty"></div>
+      <div class="tl-node">🔥</div>
+      <div class="tl-content"><div class="tl-year">2016</div><div class="tl-event">Historic Final</div><div class="tl-detail">Virat Kohli's greatest IPL season — 973 runs. Third final. Heartbreak again.</div></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-content"><div class="tl-year">2025</div><div class="tl-event">First Title 🏆</div><div class="tl-detail">17 years of patience rewarded. Beat PBKS by 6 runs. The drought ends.</div></div>
+      <div class="tl-node champion">★</div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-empty"></div>
+      <div class="tl-node champion" style="box-shadow:0 0 50px rgba(201,152,42,.7);">👑</div>
+      <div class="tl-content"><div class="tl-year">2026</div><div class="tl-event">Back to Back 🏆🏆</div><div class="tl-detail">Beat Gujarat Titans at the Narendra Modi Stadium. A dynasty is born.</div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     QUOTE
+══════════════════════════════════════════ -->
+<section id="quote">
+  <div class="rev">
+    <span class="q-mark">"</span>
+    <div class="q-text">
+      They did not just win the cup.<br>
+      They <em>became</em> the cup.<br>
+      Red. Gold. <em>Eternal.</em>
+    </div>
+    <div class="q-attr">— Narendra Modi Stadium, Ahmedabad · May 31, 2026</div>
+  </div>
+</section>
+
+<!-- ══ GOLD TICKER ══ -->
+<div class="ticker ticker-gold">
+  <div class="ticker-track" style="animation-direction:reverse;animation-duration:18s;">
+    <span class="ticker-item" style="color:var(--black);">ROYAL CHALLENGERS BENGALURU</span><span class="ticker-sep" style="color:rgba(0,0,0,.4);">✦</span>
+    <span class="ticker-item" style="color:var(--black);">IPL CHAMPIONS 2025 · 2026</span><span class="ticker-sep" style="color:rgba(0,0,0,.4);">✦</span>
+    <span class="ticker-item" style="color:var(--black);">EE SALA CUP NAMDE</span><span class="ticker-sep" style="color:rgba(0,0,0,.4);">✦</span>
+    <span class="ticker-item" style="color:var(--black);">ROYAL CHALLENGERS BENGALURU</span><span class="ticker-sep" style="color:rgba(0,0,0,.4);">✦</span>
+    <span class="ticker-item" style="color:var(--black);">IPL CHAMPIONS 2025 · 2026</span><span class="ticker-sep" style="color:rgba(0,0,0,.4);">✦</span>
+    <span class="ticker-item" style="color:var(--black);">EE SALA CUP NAMDE</span><span class="ticker-sep" style="color:rgba(0,0,0,.4);">✦</span>
+    <span class="ticker-item" style="color:var(--black);">ROYAL CHALLENGERS BENGALURU</span><span class="ticker-sep" style="color:rgba(0,0,0,.4);">✦</span>
+    <span class="ticker-item" style="color:var(--black);">IPL CHAMPIONS 2025 · 2026</span><span class="ticker-sep" style="color:rgba(0,0,0,.4);">✦</span>
+    <span class="ticker-item" style="color:var(--black);">EE SALA CUP NAMDE</span><span class="ticker-sep" style="color:rgba(0,0,0,.4);">✦</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <div class="ft-logo">R C B</div>
+  <div class="ft-tagline">Royal Challengers Bengaluru · IPL Champions 2025 &amp; 2026</div>
+  <div class="ft-divider"></div>
+  <div class="ft-meta">Ee Sala Cup Namde · Every Season, Always Ours · Est. 2008</div>
+</footer>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+  <script src="script.js"></script>
+</body>
+</html>
